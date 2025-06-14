@@ -60,8 +60,36 @@ Thanks for your support :)
 
 # Sadiq's section
 
-## What was left
+## ✅ What Was Left
 
-1. Purchasing a domain name
-2. Creating a Cloudfront Distribution
-3. Creating a CNAME record for the CDN to a friendlier name
+### 1. Purchase a Domain Name
+
+- Either via **Amazon Route 53** or a third-party registrar (e.g., Namecheap, GoDaddy).
+- If using **Route 53**, DNS integration is smoother.
+
+---
+
+### 2. Request and Verify an ACM SSL Certificate
+
+- Use **AWS Certificate Manager (ACM)** to request a certificate in the same region as your **CloudFront distribution** (usually `us-east-1`).
+- **DNS validation** is recommended and easiest.
+- If the domain is managed **outside Route 53**, manually add a **CNAME record** at your registrar to verify ownership.
+
+---
+
+### 3. Create a CloudFront Distribution
+
+- Set the **S3 bucket** (or **S3 static website endpoint**) as the origin.
+- Attach the verified **ACM certificate**.
+- Set the **Default Root Object** to `index.html`.
+- Enable **caching**, **compression**, and **HTTPS redirect** as needed.
+
+---
+
+### 4. Create a DNS Record (CNAME or A Record)
+
+- In your **DNS zone**:
+  - If using **Route 53**: create an **A record (Alias)** pointing to the CloudFront distribution.
+  - If using **another DNS provider**: create a **CNAME record** pointing to the CloudFront distribution's domain name (e.g., `d1234567abcd.cloudfront.net`).
+- Use this record to serve the site at your friendly domain (e.g., `www.example.com`).
+
