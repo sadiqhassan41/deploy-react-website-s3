@@ -1,6 +1,6 @@
 
 resource "aws_s3_bucket" "static_site" {
-  bucket = "vue.scaleupsaas.dev"
+  bucket = "sadiq-vue.scaleupsaas.dev"
 
   tags = {
     Name        = "StaticWebsiteBucket"
@@ -32,4 +32,14 @@ resource "aws_s3_bucket_policy" "public_read_policy" {
       }
     ]
   })
+  depends_on = [aws_s3_bucket_public_access_block.static_site]
+}
+
+
+resource "aws_s3_bucket_website_configuration" "example" {
+  bucket = aws_s3_bucket.static_site.id
+
+  index_document {
+    suffix = "index.html"
+  }
 }
